@@ -1,5 +1,6 @@
 package com.devbrunorafael.backend_pm.domain.service;
 
+import com.devbrunorafael.backend_pm.domain.exceptions.product.ProductNotFoundException;
 import com.devbrunorafael.backend_pm.domain.model.Product;
 import com.devbrunorafael.backend_pm.domain.repository.ProductRepository;
 import lombok.AllArgsConstructor;
@@ -14,18 +15,19 @@ public class ProductService {
     private ProductRepository productRepository;
 
     public Product findById(Long id){
-        return this.productRepository.findById(id).get();
+        return productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException("Produto não encontrado"));
     }
 
     public List<Product> findAll(){
-        return this.productRepository.findAll();
+        return productRepository.findAll();
     }
 
     public Product save(Product product){
-        return this.productRepository.save(product);
+        return productRepository.save(product);
     }
 
     public void deleteById(Long id){
-        this.productRepository.deleteById(id);
+        productRepository.deleteById(id);
     }
 }
