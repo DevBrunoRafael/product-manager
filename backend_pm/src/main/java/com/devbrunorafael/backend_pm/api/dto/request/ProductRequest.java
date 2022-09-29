@@ -9,12 +9,12 @@ import java.math.BigDecimal;
 @Data
 public class ProductRequest {
 
-    @NotBlank(message = "este campo não pode ser vazio")
+    @NotBlank
     private String name;
 
-    @NotBlank(message = "este campo não pode ser vazio")
+    @NotBlank
     private String category;
 
-    @NotNull(message = "este campo não pode ser null")
+    @NotNull
     private BigDecimal price;
 }

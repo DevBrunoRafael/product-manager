@@ -4,7 +4,10 @@ import com.devbrunorafael.backend_pm.domain.exceptions.ExceptionDetails;
 import com.devbrunorafael.backend_pm.domain.exceptions.product.ProductNotFoundException;
 import com.devbrunorafael.backend_pm.domain.exceptions.product.ProductNotFoundExceptionDetails;
 import com.devbrunorafael.backend_pm.domain.exceptions.validation.ValidationExceptionDetails;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +23,10 @@ import java.util.List;
 
 @ControllerAdvice
 @Slf4j
+@AllArgsConstructor
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
+
+    private MessageSource messageSource;
 
     protected ResponseEntity<Object> handleExceptionInternal(
             Exception ex, @Nullable Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -48,7 +54,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             .stream()
             .map(error -> ValidationExceptionDetails.Fields.builder()
                     .name(error.getField())
-                    .message(error.getDefaultMessage())
+                    .message(messageSource.getMessage(error, LocaleContextHolder.getLocale()))
                     .build())
             .toList();
 
